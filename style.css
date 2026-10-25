@@ -10,3 +10,5 @@
 
 .photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.photo-grid figure{margin:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel)}.photo-grid img{height:240px;aspect-ratio:3/2;object-fit:cover}.photo-grid figcaption{padding:16px 20px;font-weight:750}@media(max-width:750px){.photo-grid{grid-template-columns:1fr}.photo-grid img{height:240px}}
 .photo-grid img[src$="training.jpg"]{object-position:center 25%}
+
+.cicd-update{font-size:1rem;padding:10px 18px;letter-spacing:1px}
