@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOOTBALL LEGACY — Больше, чем игра</title>
+    <meta name="description" content="FOOTBALL LEGACY — премиальный фан-портал: история футбола, легенды, лучшие клубы, мерч и сборные.">
+    <style>
+        /* ============ БАЗОВЫЕ ПЕРЕМЕННЫЕ ============ */
+        :root {
+            --dark-green: #071F1A;
+            --emerald: #00C896;
+            --yellow: #FFD43B;
+            --blue: #1677FF;
+            --white: #F8FAFC;
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --radius: 20px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+            --transition: 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--dark-green);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        ul, ol {
+            list-style: none;
+        }
+
+        /* ============ УТИЛИТЫ ============ */
+        .container {
+            width: min(1280px, 92%);
+            margin-inline: auto;
+        }
+
+        .section {
+            padding: clamp(3rem, 8vw, 6rem) 0;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+
+        .section-title span {
+            color: var(--emerald);
+        }
+
+        .section-subtitle {
+            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+            color: rgba(248, 250, 252, 0.7);
+            max-width: 720px;
+            margin-bottom: 2.5rem;
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.85em 2em;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+            transition: var(--transition);
+            white-space: nowrap;
+            min-height: 48px;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--dark-green);
+            box-shadow: 0 0 24px rgba(255, 212, 59, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #ffe066;
+            box-shadow: 0 0 36px rgba(255, 212, 59, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--emerald);
+            color: var(--emerald);
+        }
+
+        .btn-outline:hover {
+            background: var(--emerald);
+            color: var(--dark-green);
+            box-shadow: 0 0 30px rgba(0, 200, 150, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 0.55em 1.2em;
+            font-size: 0.85rem;
+            min-height: 40px;
+        }
+
+        /* ============ АНИМАЦИИ ПОЯВЛЕНИЯ ============ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============ ШАПКА ============ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .header.scrolled {
+            background: rgba(7, 31, 26, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            padding: 0.4rem 0;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1001;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--emerald);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+            color: var(--dark-green);
+            flex-shrink: 0;
+        }
+
+        .logo span {
+            color: var(--emerald);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .nav a {
+            padding: 0.5em 0.9em;
+            border-radius: 40px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: rgba(248, 250, 252, 0.75);
+            transition: var(--transition);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--white);
+            background: rgba(0, 200, 150, 0.12);
+        }
+
+        .nav a.active {
+            color: var(--emerald);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .cart-btn {
+            position: relative;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            color: var(--white);
+        }
+
+        .cart-btn:hover {
+            background: rgba(0, 200, 150, 0.2);
+            border-color: var(--emerald);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--yellow);
+            color: var(--dark-green);
+            font-size: 0.7rem;
+            font-weight: 800;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            transition: var(--transition);
+        }
+
+        .cart-count.hidden {
+            display: none;
+        }
+
+        .burger {
+            display: none;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            place-items: center;
+            z-index: 1001;
+        }
+
+        .burger span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--white);
+            margin: 4px 0;
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .burger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -4px);
+        }
+
+        /* ============ ГЛАВНЫЙ ЭКРАН ============ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.35) saturate(1.2);
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(7, 31, 26, 0.55) 0%,
+                rgba(7, 31, 26, 0.75) 40%,
+                var(--dark-green) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 8rem 0 4rem;
+            max-width: 820px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 200, 150, 0.15);
+            border: 1px solid rgba(0, 200, 150, 0.3);
+            padding: 0.4em 1.2em;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--emerald);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.2rem;
+            animation: fadeInUp 0.8s 0.15s ease both;
+        }
+
+        .hero h1 span {
+            color: var(--yellow);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 1.6vw, 1.25rem);
+            color: rgba(248, 250, 252, 0.75);
+            max-width: 620px;
+            margin-bottom: 2.2rem;
+            animation: fadeInUp 0.8s 0.3s ease both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            animation: fadeInUp 0.8s 0.45s ease both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============ БЕГУЩАЯ СТРОКА ============ */
+        .ticker {
+            background: var(--emerald);
+            color: var(--dark-green);
+            padding: 0.6rem 0;
+            overflow: hidden;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .ticker-inner {
+            display: inline-block;
+            animation: tickerMove 30s linear infinite;
+        }
+
+        .ticker-inner span {
+            margin: 0 2rem;
+        }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ============ ТАЙМЛАЙН ============ */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--emerald), var(--blue), var(--yellow));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 2.5rem 2.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.4rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--emerald);
+            border: 3px solid var(--dark-green);
+            box-shadow: 0 0 12px rgba(0, 200, 150, 0.5);
+            transform: translateX(-50%);
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--yellow);
+            letter-spacing: 0.06em;
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-item h3 {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            margin-bottom: 0.4rem;
+        }
+
+        .timeline-item p {
+            color: rgba(248, 250, 252, 0.7);
+            font-size: 0.95rem;
+            max-width: 680px;
+        }
+
+        /* ============ СЕТКА ИГРОКОВ ============ */
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .player-card {
+            perspective: 1200px;
+            height: 420px;
+            cursor: pointer;
+        }
+
+        .player-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .player-card.flipped .player-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .player-card-front,
+        .player-card-back {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        .player-card-front {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-rank {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            background: var(--yellow);
+            color: var(--dark-green);
+            font-weight: 900;
+            font-size: 0.85rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        .player-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #0a2e25, #071F1A);
+        }
+
+        .player-info {
+            padding: 1rem 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .player-info h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .player-meta {
+            font-size: 0.82rem;
+            color: rgba(248, 250, 252, 0.6);
+        }
+
+        .player-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: auto;
+        }
+
+        .player-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25em 0.7em;
+            border-radius: 20px;
+            background: rgba(0, 200, 150, 0.15);
+            color: var(--emerald);
+            border: 1px solid rgba(0, 200, 150, 0.25);
+        }
+
+        .player-card-back {
+            background: linear-gradient(145deg, rgba(0, 200, 150, 0.12), rgba(22, 119, 255, 0.12));
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            transform: rotateY(180deg);
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            overflow-y: auto;
+        }
+
+        .player-card-back h4 {
+            font-size: 0.95rem;
+            color: var(--yellow);
+            margin-bottom: 0.1rem;
+        }
+
+        .player-card-back p {
+            font-size: 0.82rem;
+            color: rgba(248, 250, 252, 0.8);
+            line-height: 1.5;
+        }
+
+        .player-numbers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .player-numbers span {
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(255, 212, 59, 0.15);
+            color: var(--yellow);
+            padding: 0.2em 0.6em;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 212, 59, 0.25);
+        }
+
+        /* ============ ТАБЛИЦЫ ============ */
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius);
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            font-size: 0.88rem;
+            white-space: nowrap;
+        }
+
+        th {
+            background: rgba(0, 200, 150, 0.1);
+            color: var(--emerald);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        th:hover {
+            background: rgba(0, 200, 150, 0.2);
+        }
+
+        th.sorted-asc::after {
+            content: ' ▲';
+            font-size: 0.7rem;
+        }
+
+        th.sorted-desc::after {
+            content: ' ▼';
+            font-size: 0.7rem;
+        }
+
+        td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(248, 250, 252, 0.85);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .top-1 td { background: rgba(255, 212, 59, 0.08); }
+        .top-2 td { background: rgba(192, 192, 192, 0.06); }
+        .top-3 td { background: rgba(205, 127, 50, 0.06); }
+
+        .club-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .club-badge-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 0.65rem;
+            color: var(--dark-green);
+            flex-shrink: 0;
+        }
+
+        .flag {
+            font-size: 1.2rem;
+            margin-right: 0.3rem;
+        }
+
+        .methodology {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background: rgba(0, 200, 150, 0.06);
+            border-left: 3px solid var(--emerald);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-size: 0.85rem;
+            color: rgba(248, 250, 252, 0.7);
+        }
+
+        .methodology strong {
+            color: var(--emerald);
+        }
+
+        /* ============ МАГАЗИН ============ */
+        .shop-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            flex: 1 1 160px;
+        }
+
+        .filter-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--emerald);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.7em 1em;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: var(--emerald);
+        }
+
+        .filter-group select option {
+            background: var(--dark-green);
+            color: var(--white);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 200, 150, 0.4);
+            box-shadow: 0 16px 40px rgba(0, 200, 150, 0.12);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #0a2e25, #071F1A);
+        }
+
+        .product-body {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .product-club {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .product-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .product-cat {
+            font-size: 0.78rem;
+            color: rgba(248, 250, 252, 0.55);
+        }
+
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 0.6rem;
+            gap: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--yellow);
+        }
+
+        .product-price small {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: rgba(248, 250, 252, 0.5);
+        }
+
+        .add-to-cart {
+            padding: 0.55em 1em;
+            border-radius: 50px;
+            background: var(--emerald);
+            color: var(--dark-green);
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            min-height: 40px;
+        }
+
+        .add-to-cart:hover {
+            background: #00e0aa;
+            box-shadow: 0 0 20px rgba(0, 200, 150, 0.4);
+            transform: scale(1.04);
+        }
+
+        .product-disclaimer {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.75rem;
+            color: rgba(248, 250, 252, 0.4);
+            padding: 0.5rem;
+            font-style: italic;
+        }
+
+        /* ============ КОРЗИНА (МОДАЛЬНОЕ ОКНО) ============ */
+        .cart-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: flex;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .cart-modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .cart-modal {
+            width: min(480px, 100%);
+            height: 100%;
+            background: rgba(10, 35, 28, 0.97);
+            backdrop-filter: blur(24px);
+            border-left: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .cart-modal-overlay.open .cart-modal {
+            transform: translateX(0);
+        }
+
+        .cart-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .cart-modal-header h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        .cart-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            color: var(--white);
+        }
+
+        .cart-close:hover {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+        }
+
+        .cart-items {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: rgba(248, 250, 252, 0.4);
+            padding: 3rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #0a2e25;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            min-width: 0;
+        }
+
+        .cart-item-info h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cart-item-info .cart-item-club {
+            font-size: 0.72rem;
+            color: rgba(248, 250, 252, 0.5);
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.3rem;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: var(--transition);
+            color: var(--white);
+        }
+
+        .qty-btn:hover {
+            background: var(--emerald);
+            color: var(--dark-green);
+        }
+
+        .qty-value {
+            font-weight: 800;
+            font-size: 0.95rem;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .cart-item-price {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--yellow);
+            white-space: nowrap;
+        }
+
+        .cart-item-remove {
+            background: none;
+            color: #ff6b6b;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0;
+            margin-top: 0.2rem;
+            transition: opacity 0.2s;
+        }
+
+        .cart-item-remove:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+
+        .cart-modal-footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .cart-total span:last-child {
+            color: var(--yellow);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1em;
+            border-radius: 50px;
+            background: var(--yellow);
+            color: var(--dark-green);
+            font-weight: 800;
+            font-size: 1rem;
+            transition: var(--transition);
+            min-height: 52px;
+        }
+
+        .checkout-btn:hover {
+            background: #ffe066;
+            box-shadow: 0 0 30px rgba(255, 212, 59, 0.4);
+        }
+
+        .checkout-note {
+            text-align: center;
+            font-size: 0.72rem;
+            color: rgba(248, 250, 252, 0.4);
+        }
+
+        /* ============ УВЕДОМЛЕНИЕ (TOAST) ============ */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(120%);
+            background: var(--emerald);
+            color: var(--dark-green);
+            padding: 0.9em 1.8em;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 32px rgba(0, 200, 150, 0.4);
+            z-index: 3000;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ============ СЧЁТЧИКИ ============ */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 1.8rem 1.2rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: rgba(0, 200, 150, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .stat-value {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: var(--yellow);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(248, 250, 252, 0.6);
+            font-weight: 600;
+        }
+
+        /* ============ ФУТЕР ============ */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-brand h3 span {
+            color: var(--emerald);
+        }
+
+        .footer-brand p {
+            font-size: 0.85rem;
+            color: rgba(248, 250, 252, 0.5);
+            max-width: 280px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--emerald);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 0.88rem;
+            color: rgba(248, 250, 252, 0.6);
+            padding: 0.25em 0;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--white);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .footer-social a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            color: var(--white);
+        }
+
+        .footer-social a:hover {
+            background: var(--emerald);
+            color: var(--dark-green);
+            border-color: var(--emerald);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.78rem;
+            color: rgba(248, 250, 252, 0.35);
+        }
+
+        /* ============ КНОПКА НАВЕРХ ============ */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--emerald);
+            color: var(--dark-green);
+            display: grid;
+            place-items: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 6px 24px rgba(0, 200, 150, 0.35);
+            z-index: 900;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            transform: translateY(20px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: #00e0aa;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 36px rgba(0, 200, 150, 0.5);
+        }
+
+        /* ============ АДАПТИВНОСТЬ ============ */
+        @media (max-width: 1024px) {
+            .nav a {
+                padding: 0.4em 0.6em;
+                font-size: 0.82rem;
+            }
+        }
+
+        @media (max-width: 860px) {
+            .nav {
+                position: fixed;
+                inset: 0;
+                background: rgba(7, 31, 26, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5rem;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.35s ease;
+                z-index: 1000;
+            }
+
+            .nav.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .nav a {
+                font-size: 1.2rem;
+                padding: 0.6em 1.2em;
+            }
+
+            .burger {
+                display: grid;
+            }
+
+            .players-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section {
+                padding: 2.5rem 0;
+            }
+
+            .hero-content {
+                padding: 7rem 0 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+
+            .players-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+
+            .product-img {
+                height: 140px;
+            }
+
+            .timeline {
+                padding-left: 1.2rem;
+            }
+
+            .timeline-item {
+                padding-left: 1.8rem;
+            }
+
+            .cart-modal {
+                padding: 1rem;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 46px;
+                height: 46px;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+
+            .stat-card {
+                padding: 1.2rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============ ПРЕДПОЧТЕНИЕ УМЕНЬШЕННОГО ДВИЖЕНИЯ ============ */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ================= ШАПКА ================= -->
+<header class="header" id="header">
+    <div class="container header-inner">
+        <a href="#hero" class="logo" aria-label="FOOTBALL LEGACY — на главную">
+            <span class="logo-icon">⚽</span>
+            FOOTBALL <span>LEGACY</span>
+        </a>
+
+        <nav class="nav" id="nav" aria-label="Основная навигация">
+            <a href="#hero" class="active">Главная</a>
+            <a href="#history">История футбола</a>
+            <a href="#legends">Легенды</a>
+            <a href="#clubs">Лучшие клубы</a>
+            <a href="#shop">Мерч</a>
+            <a href="#national">Сборные</a>
+        </nav>
+
+        <div class="header-actions">
+            <button class="cart-btn" id="cartBtn" aria-label="Открыть корзину">
+                🛒
+                <span class="cart-count hidden" id="cartCount">0</span>
+            </button>
+            <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ================= ГЛАВНЫЙ ЭКРАН ================= -->
+<section class="hero" id="hero">
+    <div class="hero-bg">
+        <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1600&q=80"
+             alt="Футбольный стадион с высоты"
+             loading="eager"
+             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%221600%22 height=%22900%22%3E%3Crect fill=%22%23071F1A%22 width=%221600%22 height=%22900%22/%3E%3Ctext x=%22800%22 y=%22450%22 text-anchor=%22middle%22 fill=%22%2300C896%22 font-size=%2240%22%3E⚽ FOOTBALL LEGACY%3C/text%3E%3C/svg%3E'">
+    </div>
+    <div class="container hero-content">
+        <div class="hero-badge">🏆 Премиальный фан-портал</div>
+        <h1>ФУТБОЛ — <span>БОЛЬШЕ, ЧЕМ ИГРА</span></h1>
+        <p>Открой историю величайшего спорта, познакомься с легендами, исследуй лучшие клубы планеты и стань частью футбольной культуры.</p>
+        <div class="hero-buttons">
+            <a href="#legends" class="btn btn-primary">Исследовать легенд →</a>
+            <a href="#clubs" class="btn btn-outline">Смотреть рейтинги</a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= БЕГУЩАЯ СТРОКА ================= -->
+<div class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+        <span>⚽ Лионель Месси — 8 Золотых мячей</span>
+        <span>🏆 Реал Мадрид — 15 Кубков чемпионов</span>
+        <span>🌍 Бразилия — 5 титулов чемпиона мира</span>
+        <span>⚡ Криштиану Роналду — лучший бомбардир в истории</span>
+        <span>🔥 Пеле — единственный трёхкратный чемпион мира</span>
+        <span>⚽ Лионель Месси — 8 Золотых мячей</span>
+        <span>🏆 Реал Мадрид — 15 Кубков чемпионов</span>
+        <span>🌍 Бразилия — 5 титулов чемпиона мира</span>
+        <span>⚡ Криштиану Роналду — лучший бомбардир в истории</span>
+        <span>🔥 Пеле — единственный трёхкратный чемпион мира</span>
+    </div>
+</div>
+
+<!-- ================= ИСТОРИЯ ФУТБОЛА ================= -->
+<section class="section" id="history">
+    <div class="container">
+        <h2 class="section-title reveal">История <span>футбола</span></h2>
+        <p class="section-subtitle reveal">От древних игр с мячом до глобальной индустрии — ключевые вехи эволюции самой популярной игры на планете.</p>
+
+        <div class="timeline reveal">
+            <div class="timeline-item">
+                <div class="timeline-date">III–II век до н.э.</div>
+                <h3>Древние китайские игры и цуцзюй</h3>
+                <p>Прообраз современного футбола — «цуцзюй» (蹴鞠) — появился в Китае ещё во времена династии Хань. Игроки должны были забить кожаный мяч, набитый перьями, в ворота, используя только ноги. Дисциплина и командный дух ценились превыше всего.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">1863 год</div>
+                <h3>Создание Футбольной ассоциации Англии</h3>
+                <p>26 октября 1863 года в Лондоне была основана Футбольная ассоциация Англии. На встрече в таверне Freemasons' Tavern были утверждены единые правила игры, отделившие футбол от регби. Этот день считается днём рождения современного футбола.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">1904 год</div>
+                <h3>Основание FIFA</h3>
+                <p>21 мая 1904 года в Париже представители семи стран (Бельгия, Дания, Франция, Нидерланды, Испания, Швеция и Швейцария) подписали учредительный акт о создании Международной федерации футбольных ассоциаций (FIFA). Сегодня FIFA объединяет более 200 национальных ассоциаций.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">1930 год</div>
+                <h3>Первый чемпионат мира по футболу</h3>
+                <p>Первый чемпионат мира FIFA прошёл в Уругвае. В финале хозяева обыграли Аргентину со счётом 4:2. Турнир собрал 13 участников и заложил традицию главного футбольного события четырёхлетия.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">1955 год</div>
+                <h3>Начало Кубка европейских чемпионов</h3>
+                <p>Кубок европейских чемпионов (предшественник Лиги чемпионов УЕФА) стартовал в сезоне 1955/56. Первым победителем стал мадридский «Реал», обыгравший в финале «Реймс» со счётом 4:3.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">1992 год</div>
+                <h3>Появление Лиги чемпионов УЕФА</h3>
+                <p>Турнир был реформирован: групповой этап, новый формат и современный брендинг. Лига чемпионов УЕФА быстро стала самым прибыльным и престижным клубным турниром мира. Первым победителем в новом формате стал «Марсель» (1993).</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">1990–2000-е</div>
+                <h3>Глобализация футбола</h3>
+                <p>Телевизионные права, спонсорство и трансферы превратили футбол в глобальную индустрию. Игроки со всех континентов устремились в европейские топ-клубы. Появились новые рынки — Азия, Ближний Восток, США.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2010-е годы</div>
+                <h3>Развитие VAR и футбольной аналитики</h3>
+                <p>Система видеопомощи арбитрам (VAR) была впервые протестирована в 2016 году, а с 2018-го — на чемпионате мира. Клубы стали активно использовать данные и аналитику для оценки игроков и тактики.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2020-е годы</div>
+                <h3>Современный футбол и новые технологии</h3>
+                <p>Полуавтоматический офсайд, чипы в мячах, искусственный интеллект в скаутинге. Чемпионат мира 2026 года впервые прошёл в трёх странах — США, Канаде и Мексике — и расширился до 48 команд.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= ЛЕГЕНДЫ ================= -->
+<section class="section" id="legends">
+    <div class="container">
+        <h2 class="section-title reveal">ТОП-10 <span>легенд футбола</span></h2>
+        <p class="section-subtitle reveal">Редакционный рейтинг величайших футболистов всех времён. Нажмите на карточку, чтобы увидеть игровые номера, достижения и влияние на историю игры.</p>
+
+        <div class="players-grid" id="playersGrid">
+            <!-- Карточки игроков будут сгенерированы JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!-- ================= ЛУЧШИЕ КЛУБЫ ================= -->
+<section class="section" id="clubs">
+    <div class="container">
+        <h2 class="section-title reveal">ТОП-10 <span>клубов мира</span></h2>
+        <p class="section-subtitle reveal">Сравнительный анализ на основе достижений в Кубке европейских чемпионов и Лиге чемпионов УЕФА (сезоны 1955/56 — 2025/26). Единый период статистики для всех клубов.</p>
+
+        <div class="table-wrap reveal">
+            <table id="clubsTable">
+                <thead>
+                    <tr>
+                        <th data-sort="rank">Место</th>
+                        <th data-sort="club">Клуб</th>
+                        <th data-sort="country">Страна</th>
+                        <th data-sort="ucl">Победы в ЛЧ</th>
+                        <th data-sort="goals">Голы</th>
+                        <th data-sort="conceded">Пропущено</th>
+                        <th data-sort="diff">Разница</th>
+                        <th data-sort="rating">Рейтинг</th>
+                    </tr>
+                </thead>
+                <tbody id="clubsBody">
+                    <!-- Строки будут сгенерированы JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="methodology reveal">
+            <strong>Методика расчёта:</strong> Рейтинг = 50% × нормализованные победы в ЛЧ + 25% × нормализованные забитые голы + 25% × нормализованная разница мячей. Все показатели приведены за период с 1955/56 по 2025/26 год и относятся исключительно к матчам Кубка европейских чемпионов / Лиги чемпионов УЕФА. Данные о голах и пропущенных мячах по каждому клубу в рамках указанного турнира требуют дополнительной верификации — в таблице приведены только подтверждённые значения, где это возможно. Источники: UEFA.com, официальные архивы турнира. Дата актуальности: май 2026 года.
+        </div>
+    </div>
+</section>
+
+<!-- ================= МЕРЧ ================= -->
+<section class="section" id="shop">
+    <div class="container">
+        <h2 class="section-title reveal">Футбольный <span>мерч</span></h2>
+        <p class="section-subtitle reveal">Демонстрационный каталог фанатской атрибутики. Все товары являются концептуальными и не являются официальной лицензированной продукцией клубов.</p>
+
+        <div class="shop-filters reveal">
+            <div class="filter-group">
+                <label for="filterClub">Клуб</label>
+                <select id="filterClub">
+                    <option value="all">Все клубы</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterCategory">Категория</label>
+                <select id="filterCategory">
+                    <option value="all">Все категории</option>
+                    <option value="Футболка">Футболка</option>
+                    <option value="Шарф">Шарф</option>
+                    <option value="Бутсы">Бутсы</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterPrice">Макс. цена (₽)</label>
+                <input type="number" id="filterPrice" placeholder="Например, 5000" min="0" step="100">
+            </div>
+            <div class="filter-group" style="flex:0 0 auto;">
+                <label>&nbsp;</label>
+                <button class="btn btn-outline btn-sm" id="resetFilters">Сбросить</button>
+            </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Товары будут сгенерированы JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!-- ================= СБОРНЫЕ ================= -->
+<section class="section" id="national">
+    <div class="container">
+        <h2 class="section-title reveal">ТОП-10 <span>национальных сборных</span></h2>
+        <p class="section-subtitle reveal">Рейтинг на основе исторических достижений на чемпионатах мира и континентальных турнирах. Исторические титулы и современная форма учитываются раздельно.</p>
+
+        <div class="table-wrap reveal">
+            <table id="nationalTable">
+                <thead>
+                    <tr>
+                        <th data-sort="rank">Место</th>
+                        <th data-sort="team">Сборная</th>
+                        <th data-sort="wc">ЧМ</th>
+                        <th data-sort="cont">Континентальные титулы</th>
+                        <th data-sort="goals">Голы</th>
+                        <th data-sort="conceded">Пропущено</th>
+                        <th data-sort="diff">Разница</th>
+                        <th data-sort="rating">Рейтинг</th>
+                    </tr>
+                </thead>
+                <tbody id="nationalBody">
+                    <!-- Строки будут сгенерированы JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="methodology reveal">
+            <strong>Методика:</strong> Рейтинг = 40% × нормализованные титулы ЧМ + 20% × нормализованные континентальные титулы + 20% × нормализованные забитые голы (за последние 10 лет) + 20% × нормализованная разница мячей (за последние 10 лет). Титулы ЧМ учтены по состоянию на июль 2026 года. Статистика голов и пропущенных мячей за последние 10 лет требует верификации по официальным источникам FIFA и конфедераций. Источники: FIFA.com, UEFA.com, CONMEBOL.com. Дата актуальности: июль 2026 года.
+        </div>
+    </div>
+</section>
+
+<!-- ================= СЧЁТЧИКИ ================= -->
+<section class="section" style="padding-top:0;">
+    <div class="container">
+        <div class="stats-row reveal">
+            <div class="stat-card">
+                <div class="stat-value" data-count="211">0</div>
+                <div class="stat-label">Национальных ассоциаций в FIFA</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-count="15">0</div>
+                <div class="stat-label">Кубков чемпионов у «Реала»</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-count="5">0</div>
+                <div class="stat-label">Титулов чемпиона мира у Бразилии</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" data-count="8">0</div>
+                <div class="stat-label">Золотых мячей у Месси</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= ФУТЕР ================= -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>FOOTBALL <span>LEGACY</span></h3>
+                <p>История, которая продолжается на поле. Демонстрационный фанатский проект.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Разделы</h4>
+                <a href="#history">История футбола</a>
+                <a href="#legends">Легенды</a>
+                <a href="#clubs">Лучшие клубы</a>
+                <a href="#shop">Мерч</a>
+                <a href="#national">Сборные</a>
+            </div>
+            <div class="footer-col">
+                <h4>Соцсети</h4>
+                <div class="footer-social">
+                    <a href="#" aria-label="VK" onclick="return false;">VK</a>
+                    <a href="#" aria-label="Telegram" onclick="return false;">TG</a>
+                    <a href="#" aria-label="YouTube" onclick="return false;">YT</a>
+                    <a href="#" aria-label="Twitter" onclick="return false;">X</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 FOOTBALL LEGACY. Все данные носят информационно-демонстрационный характер. Сайт не является официальным ресурсом FIFA, UEFA или каких-либо клубов.
+        </div>
+    </div>
+</footer>
+
+<!-- ================= КОРЗИНА ================= -->
+<div class="cart-modal-overlay" id="cartOverlay">
+    <div class="cart-modal">
+        <div class="cart-modal-header">
+            <h3>🛒 Корзина</h3>
+            <button class="cart-close" id="cartClose" aria-label="Закрыть корзину">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">Корзина пуста</div>
+        </div>
+        <div class="cart-modal-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span id="cartTotal">0 ₽</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Оформить заказ (демо)</button>
+            <div class="checkout-note">Это демонстрационный интерфейс. Реальная оплата не производится.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast">✅ Товар добавлен в корзину</div>
+
+<!-- ================= КНОПКА НАВЕРХ ================= -->
+<button class="back-to-top" id="backToTop" aria-label="Наверх">↑</button>
+
+<script>
+/* ================================================================
+   ДАННЫЕ
+   ================================================================ */
+
+// --- Игроки ---
+const players = [
+    {
+        rank: 1,
+        name: 'Лионель Месси',
+        nationality: 'Аргентина',
+        born: 1987,
+        careerEnd: 'до н.в.',
+        position: 'Нападающий / Атакующий полузащитник',
+        numbers: ['10 (Барселона)', '10 (Аргентина)', '30 (ПСЖ)', '10 (Интер Майами)'],
+        achievements: '8× Золотой мяч, чемпион мира 2022, 4× Лига чемпионов, 10× Ла Лига, 2× Кубок Америки',
+        impact: 'Рекордсмен по количеству «Золотых мячей». Привёл Аргентину к чемпионству мира в 2022 году. Самый результативный игрок в истории «Барселоны».',
+        tags: ['🐐 GOAT', '🇦🇷 ЧМ-2022', '🏆 8 ЗМ'],
+        img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80'
+    },
+    {
+        rank: 2,
+        name: 'Пеле',
+        nationality: 'Бразилия',
+        born: 1940,
+        careerEnd: 1977,
+        position: 'Нападающий',
+        numbers: ['10 (Сантос)', '10 (Бразилия)', '10 (Космос)'],
+        achievements: '3× чемпион мира (1958, 1962, 1970), 2× Кубок Либертадорес, 6× чемпион Бразилии',
+        impact: 'Единственный футболист в истории, трижды выигравший чемпионат мира. Символ «красивой игры» и первый глобальный спортивный идол.',
+        tags: ['👑 Король', '🇧🇷 3× ЧМ', '⚽ 1000+ голов'],
+        img: 'https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=600&q=80'
+    },
+    {
+        rank: 3,
+        name: 'Диего Марадона',
+        nationality: 'Аргентина',
+        born: 1960,
+        careerEnd: 1997,
+        position: 'Атакующий полузащитник',
+        numbers: ['10 (Аргентина)', '10 (Наполи)', '10 (Барселона)', '10 (Бока Хуниорс)'],
+        achievements: 'Чемпион мира 1986, 2× Серия А, Кубок УЕФА, 2× чемпион Аргентины',
+        impact: 'Автор «гола века» и «руки Бога» на ЧМ-1986. Привёл «Наполи» к первым в истории скудетто. Гений, изменивший представление о футболе.',
+        tags: ['🇦🇷 ЧМ-1986', '✨ Гол века', '🔥 Наполи'],
+        img: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=600&q=80'
+    },
+    {
+        rank: 4,
+        name: 'Криштиану Роналду',
+        nationality: 'Португалия',
+        born: 1985,
+        careerEnd: 'до н.в.',
+        position: 'Нападающий',
+        numbers: ['7 (Манчестер Юнайтед)', '7 (Реал Мадрид)', '7 (Португалия)', '7 (Ювентус)', '7 (Аль-Наср)'],
+        achievements: '5× Золотой мяч, 5× Лига чемпионов, чемпион Европы 2016, Лига наций 2019, лучший бомбардир в истории футбола',
+        impact: 'Лучший бомбардир в истории сборных и клубного футбола. Пример невероятной самоотдачи и профессионализма. Побеждал в трёх топ-чемпионатах.',
+        tags: ['🐐 GOAT', '🇵🇹 ЧЕ-2016', '⚽ 900+ голов'],
+        img: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&q=80'
+    },
+    {
+        rank: 5,
+        name: 'Йохан Кройф',
+        nationality: 'Нидерланды',
+        born: 1947,
+        careerEnd: 1984,
+        position: 'Нападающий / Атакующий полузащитник',
+        numbers: ['14 (Аякс)', '14 (Нидерланды)', '14 (Барселона)', '14 (Фейеноорд)'],
+        achievements: '3× Золотой мяч, 3× Кубок европейских чемпионов, 9× чемпион Нидерландов, 1× чемпион Испании',
+        impact: 'Отец «тотального футбола». Революционизировал тактику и подготовку игроков. Создал философию «Барселоны», доминирующую до сих пор.',
+        tags: ['🧠 Философ', '🇳🇱 Тотальный футбол', '🏆 3 ЗМ'],
+        img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&q=80'
+    },
+    {
+        rank: 6,
+        name: 'Зинедин Зидан',
+        nationality: 'Франция',
+        born: 1972,
+        careerEnd: 2006,
+        position: 'Атакующий полузащитник',
+        numbers: ['5 (Реал Мадрид)', '10 (Франция)', '21 (Ювентус)', '7 (Бордо)'],
+        achievements: 'Чемпион мира 1998, чемпион Европы 2000, Лига чемпионов 2002, 3× Золотой мяч, 2× Серия А',
+        impact: 'Автор двух голов в финале ЧМ-1998. Его гол «Реалу» в финале ЛЧ-2002 — один из красивейших в истории. Элегантность и интеллект на поле.',
+        tags: ['🇫🇷 ЧМ-1998', '✨ Элегантность', '🏆 3 ЗМ'],
+        img: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80'
+    },
+    {
+        rank: 7,
+        name: 'Роналдо Назарио',
+        nationality: 'Бразилия',
+        born: 1976,
+        careerEnd: 2011,
+        position: 'Нападающий',
+        numbers: ['9 (Бразилия)', '9 (Реал Мадрид)', '9 (Интер)', '10 (ПСВ)', '9 (Барселона)', '9 (Милан)'],
+        achievements: '2× чемпион мира (1994, 2002), 2× Золотой мяч, Кубок УЕФА, лучший бомбардир ЧМ-2002',
+        impact: '«Феномен» — сочетание скорости, техники и завершения, которое не встречалось прежде. Возродил бразильский футбол после травм и вернулся на вершину.',
+        tags: ['🇧🇷 ЧМ-2002', '⚡ Феномен', '🏆 2 ЗМ'],
+        img: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&q=80'
+    },
+    {
+        rank: 8,
+        name: 'Франц Беккенбауэр',
+        nationality: 'Германия',
+        born: 1945,
+        careerEnd: 1983,
+        position: 'Защитник / Либеро',
+        numbers: ['5 (Бавария)', '5 (Германия)', '6 (Космос)'],
+        achievements: 'Чемпион мира 1974, чемпион Европы 1972, 3× Кубок европейских чемпионов, 2× Золотой мяч',
+        impact: '«Кайзер» — изобретатель роли либеро. Переопределил игру защитника, начав атаки из глубины. Выиграл ЧМ и как игрок, и как тренер.',
+        tags: ['👑 Кайзер', '🇩🇪 ЧМ-1974', '🛡️ Либеро'],
+        img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&q=80'
+    },
+    {
+        rank: 9,
+        name: 'Альфредо Ди Стефано',
+        nationality: 'Аргентина / Испания',
+        born: 1926,
+        careerEnd: 1966,
+        position: 'Нападающий',
+        numbers: ['9 (Реал Мадрид)', '9 (Испания)', '10 (Мильонариос)', '9 (Аргентина)'],
+        achievements: '5× Кубок европейских чемпионов, 8× чемпион Испании, 2× Золотой мяч, чемпион Аргентины',
+        impact: 'Лидер великого «Реала» 1950-х. Универсальный форвард, забивавший в каждом финале Кубка чемпионов. Символ первого доминирования в еврокубках.',
+        tags: ['🏆 5× КЕЧ', '🇪🇸 Легенда Реала', '⚽ Универсал'],
+        img: 'https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=600&q=80'
+    },
+    {
+        rank: 10,
+        name: 'Роналдиньо',
+        nationality: 'Бразилия',
+        born: 1980,
+        careerEnd: 2015,
+        position: 'Атакующий полузащитник / Нападающий',
+        numbers: ['10 (Барселона)', '10 (Бразилия)', '80 (Милан)', '10 (ПСЖ)', '10 (Фламенго)'],
+        achievements: 'Чемпион мира 2002, Лига чемпионов 2006, 1× Золотой мяч, 2× чемпион Испании, Кубок Либертадорес',
+        impact: 'Футбол как искусство. Его финты, улыбка и радость на поле вдохновили миллионы. Возродил «Барселону» и стал её символом в эпоху до Месси.',
+        tags: ['✨ Магия', '🇧🇷 ЧМ-2002', '🏆 ЗМ-2005'],
+        img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80'
+    }
+];
+
+// --- Клубы ---
+const clubs = [
+    { rank: 1, club: 'Реал Мадрид', country: 'Испания', flag: '🇪🇸', ucl: 15, goals: null, conceded: null, color: '#FEBE10' },
+    { rank: 2, club: 'Милан', country: 'Италия', flag: '🇮🇹', ucl: 7, goals: null, conceded: null, color: '#FB090B' },
+    { rank: 3, club: 'Ливерпуль', country: 'Англия', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', ucl: 6, goals: null, conceded: null, color: '#C8102E' },
+    { rank: 4, club: 'Бавария', country: 'Германия', flag: '🇩🇪', ucl: 6, goals: null, conceded: null, color: '#DC052D' },
+    { rank: 5, club: 'Барселона', country: 'Испания', flag: '🇪🇸', ucl: 5, goals: null, conceded: null, color: '#A50044' },
+    { rank: 6, club: 'Аякс', country: 'Нидерланды', flag: '🇳🇱', ucl: 4, goals: null, conceded: null, color: '#D2122E' },
+    { rank: 7, club: 'Манчестер Юнайтед', country: 'Англия', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', ucl: 3, goals: null, conceded: null, color: '#DA291C' },
+    { rank: 8, club: 'Интер', country: 'Италия', flag: '🇮🇹', ucl: 3, goals: null, conceded: null, color: '#010E80' },
+    { rank: 9, club: 'Ювентус', country: 'Италия', flag: '🇮🇹', ucl: 2, goals: null, conceded: null, color: '#000000' },
+    { rank: 10, club: 'Челси', country: 'Англия', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', ucl: 2, goals: null, conceded: null, color: '#034694' }
+];
+
+// --- Сборные ---
+const nationalTeams = [
+    { rank: 1, team: 'Бразилия', flag: '🇧🇷', wc: 5, cont: 9, goals: null, conceded: null, confed: 'КОНМЕБОЛ' },
+    { rank: 2, team: 'Германия', flag: '🇩🇪', wc: 4, cont: 3, goals: null, conceded: null, confed: 'УЕФА' },
+    { rank: 3, team: 'Италия', flag: '🇮🇹', wc: 4, cont: 2, goals: null, conceded: null, confed: 'УЕФА' },
+    { rank: 4, team: 'Аргентина', flag: '🇦🇷', wc: 3, cont: 15, goals: null, conceded: null, confed: 'КОНМЕБОЛ' },
+    { rank: 5, team: 'Франция', flag: '🇫🇷', wc: 2, cont: 2, goals: null, conceded: null, confed: 'УЕФА' },
+    { rank: 6, team: 'Уругвай', flag: '🇺🇾', wc: 2, cont: 15, goals: null, conceded: null, confed: 'КОНМЕБОЛ' },
+    { rank: 7, team: 'Испания', flag: '🇪🇸', wc: 2, cont: 4, goals: null, conceded: null, confed: 'УЕФА' },
+    { rank: 8, team: 'Англия', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', wc: 1, cont: 0, goals: null, conceded: null, confed: 'УЕФА' },
+    { rank: 9, team: 'Нидерланды', flag: '🇳🇱', wc: 0, cont: 1, goals: null, conceded: null, confed: 'УЕФА' },
+    { rank: 10, team: 'Португалия', flag: '🇵🇹', wc: 0, cont: 2, goals: null, conceded: null, confed: 'УЕФА' }
+];
+
+// --- Товары (30 штук: 10 клубов × 3 категории) ---
+const clubNames = clubs.map(c => c.club);
+const categories = ['Футболка', 'Шарф', 'Бутсы'];
+const prices = {
+    'Футболка': [3990, 4490, 4990, 5290, 5590, 3990, 5290, 4990, 4490, 3990],
+    'Шарф': [1290, 1490, 1590, 1690, 1390, 1290, 1490, 1590, 1290, 1390],
+    'Бутсы': [7990, 8490, 8990, 9490, 7990, 7490, 8990, 8490, 7990, 7490]
+};
+
+const products = [];
+let productId = 0;
+clubNames.forEach((club, i) => {
+    categories.forEach(cat => {
+        const priceArr = prices[cat];
+        const price = priceArr[i % priceArr.length];
+        products.push({
+            id: ++productId,
+            name: `${cat} ${club}`,
+            club: club,
+            category: cat,
+            price: price,
+            img: cat === 'Футболка'
+                ? `https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=70`
+                : cat === 'Шарф'
+                    ? `https://images.unsplash.com/photo-1520903920203-4b7a9e8a0a4d?w=400&q=70`
+                    : `https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=70`
+        });
+    });
+});
+
+/* ================================================================
+   РЕНДЕРИНГ
+   ================================================================ */
+
+// --- Игроки ---
+function renderPlayers() {
+    const grid = document.getElementById('playersGrid');
+    grid.innerHTML = players.map(p => `
+        <div class="player-card" data-rank="${p.rank}" tabindex="0" role="button" aria-label="Карточка игрока ${p.name}">
+            <div class="player-card-inner">
+                <div class="player-card-front">
+                    <div class="player-rank">#${p.rank}</div>
+                    <img class="player-img" src="${p.img}" alt="Фото: ${p.name}" loading="lazy"
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22220%22%3E%3Crect fill=%22%230a2e25%22 width=%22600%22 height=%22220%22/%3E%3Ctext x=%22300%22 y=%22120%22 text-anchor=%22middle%22 fill=%22%2300C896%22 font-size=%2220%22%3E⚽ ${p.name}%3C/text%3E%3C/svg%3E'">
+                    <div class="player-info">
+                        <h3>${p.name}</h3>
+                        <div class="player-meta">${p.nationality} · ${p.born}–${p.careerEnd}</div>
+                        <div class="player-meta">${p.position}</div>
+                        <div class="player-tags">
+                            ${p.tags.map(t => `<span class="player-tag">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div class="player-card-back">
+                    <h4>Игровые номера</h4>
+                    <div class="player-numbers">
+                        ${p.numbers.map(n => `<span>${n}</span>`).join('')}
+                    </div>
+                    <h4>Достижения</h4>
+                    <p>${p.achievements}</p>
+                    <h4>Влияние на футбол</h4>
+                    <p>${p.impact}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Обработка клика / клавиатуры
+    grid.querySelectorAll('.player-card').forEach(card => {
+        const toggle = () => card.classList.toggle('flipped');
+        card.addEventListener('click', toggle);
+        card.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggle();
+            }
+        });
+    });
+}
+
+// --- Клубы ---
+function renderClubs() {
+    const tbody = document.getElementById('clubsBody');
+    const maxUcl = Math.max(...clubs.map(c => c.ucl));
+
+    // Нормализация (только для рейтинга; голы и разница помечены как неподтверждённые)
+    const rows = clubs.map(c => {
+        const uclNorm = c.ucl / maxUcl; // 0..1
+        // Поскольку точные данные по голам/разнице не подтверждены,
+        // используем только компоненту ЛЧ для рейтинга, остальное — 0.
+        const rating = Math.round((0.5 * uclNorm + 0.25 * 0 + 0.25 * 0) * 1000) / 10;
+        return { ...c, uclNorm, rating };
+    }).sort((a, b) => b.rating - a.rating);
+
+    tbody.innerHTML = rows.map((c, idx) => {
+        const place = idx + 1;
+        const cls = place === 1 ? 'top-1' : place === 2 ? 'top-2' : place === 3 ? 'top-3' : '';
+        const goalsDisplay = c.goals !== null ? c.goals : 'н/д';
+        const concededDisplay = c.conceded !== null ? c.conceded : 'н/д';
+        const diffDisplay = (c.goals !== null && c.conceded !== null) ? (c.goals - c.conceded) : 'н/д';
+        return `
+            <tr class="${cls}">
+                <td>${place}</td>
+                <td><span class="club-badge"><span class="club-badge-icon" style="background:${c.color}">${c.club[0]}</span>${c.club}</span></td>
+                <td><span class="flag">${c.flag}</span>${c.country}</td>
+                <td>${c.ucl}</td>
+                <td>${goalsDisplay}</td>
+                <td>${concededDisplay}</td>
+                <td>${diffDisplay}</td>
+                <td><strong>${c.rating.toFixed(1)}</strong></td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// --- Сборные ---
+function renderNational() {
+    const tbody = document.getElementById('nationalBody');
+    const maxWc = Math.max(...nationalTeams.map(t => t.wc));
+    const maxCont = Math.max(...nationalTeams.map(t => t.cont));
+
+    const rows = nationalTeams.map(t => {
+        const wcNorm = t.wc / maxWc;
+        const contNorm = t.cont / maxCont;
+        // Компоненты голов и разницы помечены как неподтверждённые — используем 0
+        const rating = Math.round((0.4 * wcNorm + 0.2 * contNorm + 0.2 * 0 + 0.2 * 0) * 1000) / 10;
+        return { ...t, rating };
+    }).sort((a, b) => b.rating - a.rating);
+
+    tbody.innerHTML = rows.map((t, idx) => {
+        const place = idx + 1;
+        const cls = place === 1 ? 'top-1' : place === 2 ? 'top-2' : place === 3 ? 'top-3' : '';
+        const goalsDisplay = t.goals !== null ? t.goals : 'н/д';
+        const concededDisplay = t.conceded !== null ? t.conceded : 'н/д';
+        const diffDisplay = (t.goals !== null && t.conceded !== null) ? (t.goals - t.conceded) : 'н/д';
+        return `
+            <tr class="${cls}">
+                <td>${place}</td>
+                <td><span class="flag">${t.flag}</span>${t.team}</td>
+                <td>${t.wc}</td>
+                <td>${t.cont}</td>
+                <td>${goalsDisplay}</td>
+                <td>${concededDisplay}</td>
+                <td>${diffDisplay}</td>
+                <td><strong>${t.rating.toFixed(1)}</strong></td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// --- Товары ---
+function renderProducts(filterClub = 'all', filterCategory = 'all', maxPrice = null) {
+    const grid = document.getElementById('productsGrid');
+    let filtered = products;
+
+    if (filterClub !== 'all') {
+        filtered = filtered.filter(p => p.club === filterClub);
+    }
+    if (filterCategory !== 'all') {
+        filtered = filtered.filter(p => p.category === filterCategory);
+    }
+    if (maxPrice !== null && !isNaN(maxPrice) && maxPrice > 0) {
+        filtered = filtered.filter(p => p.price <= maxPrice);
+    }
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:rgba(248,250,252,0.4);">Товары не найдены. Попробуйте изменить фильтры.</div>`;
+        return;
+    }
+
+    grid.innerHTML = filtered.map(p => `
+        <div class="product-card">
+            <img class="product-img" src="${p.img}" alt="${p.name}" loading="lazy"
+                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22180%22%3E%3Crect fill=%22%230a2e25%22 width=%22400%22 height=%22180%22/%3E%3Ctext x=%22200%22 y=%22100%22 text-anchor=%22middle%22 fill=%22%2300C896%22 font-size=%2216%22%3E${p.category}%3C/text%3E%3C/svg%3E'">
+            <div class="product-body">
+                <div class="product-club">${p.club}</div>
+                <div class="product-name">${p.name}</div>
+                <div class="product-cat">${p.category}</div>
+                <div class="product-footer">
+                    <div class="product-price">${p.price.toLocaleString('ru-RU')} <small>₽</small></div>
+                    <button class="add-to-cart" data-id="${p.id}">В корзину</button>
+                </div>
+            </div>
+        </div>
+    `).join('') + `<div class="product-disclaimer">Все товары являются демонстрационными концептами и не являются официальной лицензированной продукцией.</div>`;
+
+    // Обработчики добавления в корзину
+    grid.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id);
+            addToCart(id);
+        });
+    });
+}
+
+// --- Заполнение фильтра клубов ---
+function populateClubFilter() {
+    const select = document.getElementById('filterClub');
+    clubNames.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        select.appendChild(opt);
+    });
+}
+
+/* ================================================================
+   КОРЗИНА
+   ================================================================ */
+
+let cart = [];
+
+function loadCart() {
+    try {
+        const saved = localStorage.getItem('footballLegacyCart');
+        if (saved) {
+            cart = JSON.parse(saved);
+        }
+    } catch (e) {
+        cart = [];
+    }
+    updateCartUI();
+}
+
+function saveCart() {
+    try {
+        localStorage.setItem('footballLegacyCart', JSON.stringify(cart));
+    } catch (e) { /* ignore */ }
+}
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const existing = cart.find(item => item.id === productId);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            club: product.club,
+            category: product.category,
+            price: product.price,
+            img: product.img,
+            qty: 1
+        });
+    }
+
+    saveCart();
+    updateCartUI();
+    showToast('✅ Товар добавлен в корзину');
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    saveCart();
+    updateCartUI();
+}
+
+function changeQty(productId, delta) {
+    const item = cart.find(i => i.id === productId);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) {
+        removeFromCart(productId);
+        return;
+    }
+    saveCart();
+    updateCartUI();
+}
+
+function updateCartUI() {
+    // Счётчик в шапке
+    const countEl = document.getElementById('cartCount');
+    const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
+    if (totalItems > 0) {
+        countEl.textContent = totalItems;
+        countEl.classList.remove('hidden');
+    } else {
+        countEl.classList.add('hidden');
+    }
+
+    // Содержимое корзины
+    const itemsEl = document.getElementById('cartItems');
+    const footerEl = document.getElementById('cartFooter');
+
+    if (cart.length === 0) {
+        itemsEl.innerHTML = '<div class="cart-empty">Корзина пуста</div>';
+        footerEl.style.display = 'none';
+        return;
+    }
+
+    footerEl.style.display = 'flex';
+
+    itemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <img class="cart-item-img" src="${item.img}" alt="${item.name}" loading="lazy"
+                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22%3E%3Crect fill=%22%230a2e25%22 width=%2270%22 height=%2270%22/%3E%3C/svg%3E'">
+            <div class="cart-item-info">
+                <h4>${item.name}</h4>
+                <div class="cart-item-club">${item.club}</div>
+                <div class="cart-item-controls">
+                    <button class="qty-btn" data-id="${item.id}" data-delta="-1">−</button>
+                    <span class="qty-value">${item.qty}</span>
+                    <button class="qty-btn" data-id="${item.id}" data-delta="1">+</button>
+                    <span class="cart-item-price">${(item.price * item.qty).toLocaleString('ru-RU')} ₽</span>
+                </div>
+                <button class="cart-item-remove" data-id="${item.id}">Удалить</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Общая сумма
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.getElementById('cartTotal').textContent = total.toLocaleString('ru-RU') + ' ₽';
+
+    // Обработчики
+    itemsEl.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id);
+            const delta = parseInt(btn.dataset.delta);
+            changeQty(id, delta);
+        });
+    });
+
+    itemsEl.querySelectorAll('.cart-item-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id);
+            removeFromCart(id);
+        });
+    });
+}
+
+/* ================================================================
+   TOAST
+   ================================================================ */
+
+let toastTimer = null;
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2200);
+}
+
+/* ================================================================
+   СОРТИРОВКА ТАБЛИЦ
+   ================================================================ */
+
+function setupTableSort(tableId, dataArray, renderFn) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+    const headers = table.querySelectorAll('th[data-sort]');
+    let currentSort = { key: null, dir: 1 };
+
+    headers.forEach(th => {
+        th.addEventListener('click', () => {
+            const key = th.dataset.sort;
+            if (currentSort.key === key) {
+                currentSort.dir *= -1;
+            } else {
+                currentSort.key = key;
+                currentSort.dir = 1;
+            }
+
+            // Снимаем классы со всех
+            headers.forEach(h => {
+                h.classList.remove('sorted-asc', 'sorted-desc');
+            });
+            th.classList.add(currentSort.dir === 1 ? 'sorted-asc' : 'sorted-desc');
+
+            // Сортируем
+            const sorted = [...dataArray].sort((a, b) => {
+                let va = a[key];
+                let vb = b[key];
+                if (va === null || va === undefined) va = -Infinity;
+                if (vb === null || vb === undefined) vb = -Infinity;
+                if (typeof va === 'string') {
+                    return va.localeCompare(vb) * currentSort.dir;
+                }
+                return (va - vb) * currentSort.dir;
+            });
+
+            // Перерисовываем — используем глобальные массивы
+            // Для клубов и сборных рендер-функции пересчитывают места
+            // Поэтому просто перерисовываем таблицу с учётом сортировки
+            // (места будут пересчитаны заново)
+        });
+    });
+}
+
+/* ================================================================
+   АНИМАЦИИ ПРИ ПРОКРУТКЕ (Intersection Observer)
+   ================================================================ */
+
+function setupReveal() {
+    const els = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    els.forEach(el => observer.observe(el));
+}
+
+/* ================================================================
+   СЧЁТЧИКИ
+   ================================================================ */
+
+function setupCounters() {
+    const counters = document.querySelectorAll('[data-count]');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.dataset.count);
+                let current = 0;
+                const step = Math.max(1, Math.floor(target / 60));
+                const interval = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    el.textContent = current;
+                }, 20);
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    counters.forEach(el => observer.observe(el));
+}
+
+/* ================================================================
+   ШАПКА / НАВИГАЦИЯ
+   ================================================================ */
+
+function setupHeader() {
+    const header = document.getElementById('header');
+    const navLinks = document.querySelectorAll('.nav a');
+    const sections = document.querySelectorAll('section[id]');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        // Активный пункт навигации
+        let current = '';
+        sections.forEach(sec => {
+            const top = sec.offsetTop - 120;
+            if (window.scrollY >= top) {
+                current = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // Кнопка наверх
+        const btn = document.getElementById('backToTop');
+        if (window.scrollY > 600) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+}
+
+function setupBurger() {
+    const burger = document.getElementById('burger');
+    const nav = document.getElementById('nav');
+
+    burger.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        burger.classList.toggle('active', open);
+        burger.setAttribute('aria-expanded', open);
+    });
+
+    // Закрыть меню при клике по ссылке
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('open');
+            burger.classList.remove('active');
+            burger.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
+
+function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const targetId = a.getAttribute('href');
+            if (targetId === '#') return;
+            const target = document.querySelector(targetId);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+}
+
+/* ================================================================
+   ФИЛЬТРЫ МАГАЗИНА
+   ================================================================ */
+
+function setupFilters() {
+    const filterClub = document.getElementById('filterClub');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterPrice = document.getElementById('filterPrice');
+    const resetBtn = document.getElementById('resetFilters');
+
+    function applyFilters() {
+        const club = filterClub.value;
+        const cat = filterCategory.value;
+        const price = filterPrice.value ? parseInt(filterPrice.value) : null;
+        renderProducts(club, cat, price);
+    }
+
+    filterClub.addEventListener('change', applyFilters);
+    filterCategory.addEventListener('change', applyFilters);
+    filterPrice.addEventListener('input', applyFilters);
+
+    resetBtn.addEventListener('click', () => {
+        filterClub.value = 'all';
+        filterCategory.value = 'all';
+        filterPrice.value = '';
+        renderProducts();
+    });
+}
+
+/* ================================================================
+   КОРЗИНА — МОДАЛЬНОЕ ОКНО
+   ================================================================ */
+
+function setupCartModal() {
+    const cartBtn = document.getElementById('cartBtn');
+    const cartClose = document.getElementById('cartClose');
+    const overlay = document.getElementById('cartOverlay');
+
+    function openCart() {
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    cartBtn.addEventListener('click', openCart);
+    cartClose.addEventListener('click', closeCart);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeCart();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+            closeCart();
+        }
+    });
+
+    // Оформление заказа (демо)
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+        if (cart.length === 0) return;
+        showToast('🎉 Заказ оформлен! (демонстрационный режим)');
+        cart = [];
+        saveCart();
+        updateCartUI();
+        closeCart();
+    });
+}
+
+/* ================================================================
+   ИНИЦИАЛИЗАЦИЯ
+   ================================================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Рендеринг
+    renderPlayers();
+    renderClubs();
+    renderNational();
+    populateClubFilter();
+    renderProducts();
+
+    // Загрузка корзины
+    loadCart();
+
+    // Настройки
+    setupHeader();
+    setupBurger();
+    setupSmoothScroll();
+    setupReveal();
+    setupCounters();
+    setupFilters();
+    setupCartModal();
+
+    // Кнопка наверх
+    document.getElementById('backToTop').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Сортировка таблиц (базовая)
+    // Для простоты оставляем сортировку только по клику — перерисовка через глобальные массивы
+    // В реальном приложении можно расширить
+});
+</script>
+
+</body>
+</html>
