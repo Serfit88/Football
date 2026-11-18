@@ -1,58 +1,58 @@
-name: Deploy static site
+name: Deploy static site #Название процесса во вкладке Actions на GitHub
 
-on:
-  push:
-    branches: [main]
+on: #Перечисляет события, которые запускают процесс
+  push: 
+    branches: [main] #Запуск при отправке изменений в ветку main, в том числе после слияния pull request.
   pull_request:
-    branches: [main]
-  workflow_dispatch:
+    branches: [main] #Запуск при открытии, повторном открытии или обновлении pull request, направленного в main.
+  workflow_dispatch: #Позволяет запустить процесс вручную через Run workflow.
 
 permissions:
-  contents: read
+  contents: read #Даёт токену workflow право читать содержимое репозитория.
 
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: pages-${{ github.ref }} #Группирует запуски по ссылке GitHub. Например, для main группа называется pages-refs/heads/main. В одной группе одновременно выполняется только один запуск.
+  cancel-in-progress: false #Новый запуск даёт текущему завершиться. Если в этой же группе уже есть ожидающий запуск, новый может занять его место.
 
-jobs:
+jobs: #Начало списка задач. Каждая задача содержит свои шаги в steps:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #GitHub выделяет для задачи виртуальную машину с Ubuntu. Эта настройка повторяется во всех трёх задачах.
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 #Копирует файлы репозитория на виртуальную машину, чтобы следующие шаги могли с ними работать. В build этот шаг повторяется, потому что задачи работают в отдельных окружениях.
       - name: Check HTML CSS and local resources
-        run: python3 scripts/validate_site.py
+        run: python3 scripts/validate_site.py #Запускает скрипт проверки сайта. По названию шага он проверяет HTML, CSS и локальные ресурсы. Точный список проверок задан в самом скрипте.
       - name: Check JavaScript syntax
-        run: node --check main.js
+        run: node --check main.js #Проверяет синтаксис main.js без выполнения кода. Например, обнаруживает незакрытую скобку.
       - name: Test quality gate
-        run: python3 -m unittest discover -s tests -v
+        run: python3 -m unittest discover -s tests -v #Находит и запускает Python-тесты из папки tests. Флаг -v выводит подробные результаты. Если тест падает, задача validate завершается с ошибкой.
 
   build:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: validate
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' #Сборка запускается, если событие отличается от pull_request и запуск относится к ветке main. В этом workflow условие выполняется при push в main или при ручном запуске на main.
+    needs: validate #Сборка ждёт успешного завершения проверки.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Package static site
-        run: python3 scripts/build_site.py
+        run: python3 scripts/build_site.py #Запускает скрипт подготовки сайта. Следующий шаг ожидает увидеть готовые файлы в папке _site.
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v4 #Загружает подготовленные файлы как артефакт GitHub Pages. Артефакт — это упакованные файлы сайта, которые получит задача публикации.
         with:
-          path: _site
+          path: _site #	Передаёт действию путь к папке с готовым сайтом.
 
   deploy:
-    needs: build
+    needs: build #Публикация начинается только после успешной сборки. Если сборка пропущена или завершилась ошибкой, публикация тоже пропускается.
     runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
+      pages: write #Разрешает задаче публиковать сайт в GitHub Pages.
+      id-token: write #Позволяет получить токен OIDC, с помощью которого GitHub Pages проверяет, что этот запуск имеет право публиковать сайт.
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: github-pages #Связывает публикацию с окружением github-pages в репозитории.
+      url: ${{ steps.deployment.outputs.page_url }} #Берёт адрес опубликованного сайта из результата шага deployment и привязывает ссылку к окружению в интерфейсе GitHub.
     steps:
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v5 #Получает настройки GitHub Pages для репозитория
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        id: deployment #Присваивает шагу идентификатор, по которому строка url получает его результат.
+        uses: actions/deploy-pages@v4 #Публикует артефакт из задачи build и возвращает адрес сайта в page_url.
